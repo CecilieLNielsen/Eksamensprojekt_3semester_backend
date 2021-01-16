@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/dat3startcode/rest-jpa-devops-startcode.svg?branch=master)](https://travis-ci.org/dat3startcode/rest-jpa-devops-startcode)
+[![Build Status](https://travis-ci.com/CecilieLNielsen/Eksamensprojekt_3semester_backend.svg?branch=master)](https://travis-ci.com/CecilieLNielsen/Eksamensprojekt_3semester_backend)
 
 # Getting Started with Eksamen_Startkode_Backend
 by Cecilie
