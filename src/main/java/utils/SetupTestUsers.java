@@ -13,9 +13,9 @@ public class SetupTestUsers {
         EntityManagerFactory emf = EMF_Creator.createEntityManagerFactory();
         EntityManager em = emf.createEntityManager();
 
-        User user = new User("user", "test");
-        User admin = new User("admin", "test");
-        User both = new User("user_admin", "test");
+        User user = new User("user", "user123");
+        User admin = new User("admin", "admin123");
+        User both = new User("user_admin", "useradmin123");
 
         if (admin.getUserPass().equals("test") || user.getUserPass().equals("test") || both.getUserPass().equals("test")) {
             throw new UnsupportedOperationException("You have not changed the passwords");

@@ -3,17 +3,14 @@ utils/EMF_Creator.class
 security/SharedSecret.class
 security/UserPrincipal.class
 security/errorhandling/AuthenticationExceptionMapper.class
-facades/FacadeExample.class
 DTO/demo/AwesomeDTO.class
 entities/Role.class
 DTO/demo/PlanetDTO.class
-rest/RenameMeResource.class
 security/JWTAuthenticationFilter.class
 rest/ApplicationConfig.class
 security/RolesAllowedFilter.class
 errorhandling/ExceptionDTO.class
 DTO/demo/ChuckDTO.class
-entities/RenameMe.class
 DTO/demo/InsultDTO.class
 utils/SetupTestUsers.class
 security/errorhandling/AuthenticationException.class
