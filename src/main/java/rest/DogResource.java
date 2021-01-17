@@ -1,5 +1,9 @@
 package rest;
 
+import DTO.BreedCombinedDTO;
+import DTO.BreedFactsDTO;
+import DTO.BreedImageDTO;
+import DTO.BreedInformationDTO;
 import DTO.DogDTO;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -47,5 +51,26 @@ public class DogResource {
     @Produces(MediaType.APPLICATION_JSON)
     public String getAllBreeds() throws IOException {
         return HttpUtils.fetchData("https://dog-info.cooljavascript.dk/api/breed");
+    }
+    
+    @GET
+    @Path("/breeds/{breed}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getData(@PathParam("breed") String breed) throws IOException {
+
+        String breedInformation = HttpUtils.fetchData("https://dog-info.cooljavascript.dk/api/breed/" + breed);
+        BreedInformationDTO breedInformationDTO = GSON.fromJson(breedInformation, BreedInformationDTO.class);
+
+        String breedImage = HttpUtils.fetchData("https://dog-image.cooljavascript.dk/api/breed/random-image/" + breed);
+        BreedImageDTO breedImageDTO = GSON.fromJson(breedImage, BreedImageDTO.class);
+        
+        String breedFacts = HttpUtils.fetchData("https://dog-api.kinduff.com/api/facts");
+        BreedFactsDTO breedFactsDTO = GSON.fromJson(breedFacts, BreedFactsDTO.class);
+        
+        BreedCombinedDTO breedCombinedDTO = new BreedCombinedDTO(breedInformationDTO, breedImageDTO, breedFactsDTO);
+
+        String combinedJSON = GSON.toJson(breedCombinedDTO);
+
+        return combinedJSON;
     }
 }

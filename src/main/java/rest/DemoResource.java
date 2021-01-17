@@ -1,11 +1,6 @@
 package rest;
 
-import DTO.demo.AwesomeDTO;
-import DTO.demo.ChuckDTO;
-import DTO.demo.CombinedDTO;
-import DTO.demo.DadDTO;
-import DTO.demo.InsultDTO;
-import DTO.demo.PlanetDTO;
+
 import com.google.gson.Gson;
 import entities.User;
 import java.io.IOException;
@@ -72,33 +67,5 @@ public class DemoResource {
     public String getFromAdmin() {
         String thisuser = securityContext.getUserPrincipal().getName();
         return "{\"msg\": \"Hello to (admin) User: " + thisuser + "\"}";
-    }
-
-    @GET
-    @Path("data")
-    @Produces(MediaType.APPLICATION_JSON)
-    public String getData() throws IOException {
-        Gson gson = new Gson();
-
-        String chuck = HttpUtils.fetchData("https://api.chucknorris.io/jokes/random");
-        ChuckDTO chuckDTO = gson.fromJson(chuck, ChuckDTO.class);
-
-        String dad = HttpUtils.fetchData("https://icanhazdadjoke.com");
-        DadDTO dadDTO = gson.fromJson(dad, DadDTO.class);
-        
-        String insult = HttpUtils.fetchData("https://evilinsult.com/generate_insult.php?lang=en&type=json");
-        InsultDTO insultDTO = gson.fromJson(insult, InsultDTO.class);
-        
-        String awesome = HttpUtils.fetchData("https://www.foaas.com/awesome/Cecilie");
-        AwesomeDTO awesomeDTO = gson.fromJson(awesome, AwesomeDTO.class);
-        
-        String planet = HttpUtils.fetchData("https://swapi.dev/api/planets/1");
-        PlanetDTO planetDTO = gson.fromJson(planet, PlanetDTO.class);
-
-        CombinedDTO combinedDTO = new CombinedDTO(chuckDTO, dadDTO, insultDTO, awesomeDTO, planetDTO);
-
-        String combinedJSON = gson.toJson(combinedDTO);
-
-        return combinedJSON;
     }
 }
