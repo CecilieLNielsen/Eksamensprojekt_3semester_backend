@@ -150,5 +150,15 @@ public class DogResourceTest {
                 .get("/dog/breeds/husky").then()
                 .statusCode(200);
     }
+    
+    @Test
+    public void testDeleteDog() throws Exception {
+        given()
+                .contentType("application/json")
+                .accept(ContentType.JSON)
+                .when()
+                .delete("/dog/1").then()
+                .statusCode(200);
+    }
 
 }

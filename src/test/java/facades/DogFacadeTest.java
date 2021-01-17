@@ -84,5 +84,14 @@ public class DogFacadeTest {
         assertEquals(2, result.size());
     }
     
+        @Test
+    public void testDeleteDog() {
+        // Arrange
+        int id = 1;
+        // Act
+        DogDTO result = facade.deleteDog(id);
+        // Assert
+        assertEquals(id, result.getId());
+    }
 
 }
