@@ -130,5 +130,15 @@ public class DogResourceTest {
                 .get("/dog/user").then()
                 .statusCode(200);
     }
+    
+      @Test
+    public void testGetAllBreeds() throws Exception {
+        given()
+                .contentType("application/json")
+                .accept(ContentType.JSON)
+                .when()
+                .get("/dog/breeds").then()
+                .statusCode(200);
+    }
 
 }
