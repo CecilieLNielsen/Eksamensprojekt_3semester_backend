@@ -19,7 +19,7 @@ public class SearchesDTO {
 
     public SearchesDTO(Searches searches) {
         this.id = searches.getId();
-        this.dateTime = searches.getDateTime();
+        this.dateTime = null;//searches.getDateTime();
         this.breedName = null;
     }
 
