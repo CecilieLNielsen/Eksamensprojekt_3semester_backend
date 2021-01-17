@@ -2,8 +2,6 @@
 /Users/cecilie/NetBeansProjects/Eksamensprojekt_3semester/Eksamensprojekt_3semester_backend/src/main/java/security/RolesAllowedFilter.java
 /Users/cecilie/NetBeansProjects/Eksamensprojekt_3semester/Eksamensprojekt_3semester_backend/src/main/java/utils/EMF_Creator.java
 /Users/cecilie/NetBeansProjects/Eksamensprojekt_3semester/Eksamensprojekt_3semester_backend/src/main/java/rest/DogResource.java
-/Users/cecilie/NetBeansProjects/Eksamensprojekt_3semester/Eksamensprojekt_3semester_backend/src/main/java/entities/Searches.java
-/Users/cecilie/NetBeansProjects/Eksamensprojekt_3semester/Eksamensprojekt_3semester_backend/src/main/java/DTO/SearchesDTO.java
 /Users/cecilie/NetBeansProjects/Eksamensprojekt_3semester/Eksamensprojekt_3semester_backend/src/main/java/security/UserPrincipal.java
 /Users/cecilie/NetBeansProjects/Eksamensprojekt_3semester/Eksamensprojekt_3semester_backend/src/main/java/security/SharedSecret.java
 /Users/cecilie/NetBeansProjects/Eksamensprojekt_3semester/Eksamensprojekt_3semester_backend/src/main/java/errorhandling/NotFoundException.java
@@ -15,9 +13,7 @@
 /Users/cecilie/NetBeansProjects/Eksamensprojekt_3semester/Eksamensprojekt_3semester_backend/src/main/java/entities/Role.java
 /Users/cecilie/NetBeansProjects/Eksamensprojekt_3semester/Eksamensprojekt_3semester_backend/src/main/java/DTO/BreedInformationDTO.java
 /Users/cecilie/NetBeansProjects/Eksamensprojekt_3semester/Eksamensprojekt_3semester_backend/src/main/java/DTO/BreedFactsDTO.java
-/Users/cecilie/NetBeansProjects/Eksamensprojekt_3semester/Eksamensprojekt_3semester_backend/src/main/java/entities/Breed.java
 /Users/cecilie/NetBeansProjects/Eksamensprojekt_3semester/Eksamensprojekt_3semester_backend/src/main/java/security/errorhandling/AuthenticationException.java
-/Users/cecilie/NetBeansProjects/Eksamensprojekt_3semester/Eksamensprojekt_3semester_backend/src/main/java/rest/DemoResource.java
 /Users/cecilie/NetBeansProjects/Eksamensprojekt_3semester/Eksamensprojekt_3semester_backend/src/main/java/utils/HttpUtils.java
 /Users/cecilie/NetBeansProjects/Eksamensprojekt_3semester/Eksamensprojekt_3semester_backend/src/main/java/security/JWTSecurityContext.java
 /Users/cecilie/NetBeansProjects/Eksamensprojekt_3semester/Eksamensprojekt_3semester_backend/src/main/java/rest/ApplicationConfig.java

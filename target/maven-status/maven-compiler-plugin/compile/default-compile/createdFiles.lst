@@ -11,7 +11,6 @@ errorhandling/ExceptionDTO.class
 utils/SetupTestUsers.class
 security/errorhandling/AuthenticationException.class
 cors/CorsFilter.class
-rest/DemoResource.class
 security/LoginEndpoint.class
 security/errorhandling/NotAuthorizedExceptionMapper.class
 security/JWTSecurityContext.class
