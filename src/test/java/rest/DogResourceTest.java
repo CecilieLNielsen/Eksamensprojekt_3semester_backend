@@ -193,4 +193,23 @@ public class DogResourceTest {
                 .statusCode(400);
     }
 */
+    
+      @Test
+    public void testEditDog() throws Exception {
+        String json = "{\n"
+                + "    \"name\": \"Balou\", \n"
+                + "    \"dateOfBirth\": \"01/01/2021\",\n"
+                + "    \"info\" : \"A sweet dog\",\n"
+                + "    \"breedName\" : \"Golden Retriever\"\n"
+                + "}";
+        login("user", "user123");
+        given()
+                .contentType("application/json")
+                .accept(ContentType.JSON)
+                .header("x-access-token", securityToken)
+                .body(json)
+                .when()
+                .put("/dog/2").then()
+                .statusCode(200);
+    }
 }

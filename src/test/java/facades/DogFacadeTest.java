@@ -81,7 +81,7 @@ public class DogFacadeTest {
         // Arrange
 
         // Act
-        List<DogDTO> result = facade.GetAllDogsByUser("user");
+        List<DogDTO> result = facade.getAllDogsByUser("user");
         // Assert
         assertEquals(2, result.size());
     }
@@ -96,7 +96,7 @@ public class DogFacadeTest {
         assertThrows(NotFoundException.class, () -> {
        
         //Act     
-        facade.GetAllDogsByUser(username);
+        facade.getAllDogsByUser(username);
         });
     }
     
@@ -122,6 +122,18 @@ public class DogFacadeTest {
         //Act     
         facade.deleteDog(id);
         });
+    }
+    
+     @Test
+    public void testEditDog() {
+        // Arrange
+        String newValue = "A great dog";
+        DogDTO d = new DogDTO("Sofus", "01/01/2021", newValue, "Golden Retriever");
+        d.setId(1);
+        // Act
+        DogDTO result = facade.editDog(d);
+        // Assert
+        assertEquals(newValue, result.getInfo());
     }
      
      

@@ -17,6 +17,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -53,7 +54,7 @@ public class DogResource {
     @RolesAllowed("user")
     public String getAllDogsByUser() throws NotFoundException {
         String username = securityContext.getUserPrincipal().getName();
-        return GSON.toJson(FACADE.GetAllDogsByUser(username));
+        return GSON.toJson(FACADE.getAllDogsByUser(username));
     }
     
     @GET
@@ -82,6 +83,17 @@ public class DogResource {
         String combinedJSON = GSON.toJson(breedCombinedDTO);
 
         return combinedJSON;
+    }
+    
+    @PUT
+    @Path("/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed("user")
+    public String editDog(@PathParam("id") int id, String dog) {
+        DogDTO dogDTO = GSON.fromJson(dog, DogDTO.class);
+        dogDTO.setId(id);
+        return GSON.toJson(FACADE.editDog(dogDTO));
     }
     
     @Path("/{id}")

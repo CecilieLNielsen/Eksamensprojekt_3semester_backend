@@ -36,7 +36,7 @@ public class DogFacade {
         return emf.createEntityManager();
     }
 
-      public DogDTO addDog(DogDTO dogDTO, String username) { //Evt. test på, om attributterne er tomme
+    public DogDTO addDog(DogDTO dogDTO, String username) {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
@@ -50,10 +50,9 @@ public class DogFacade {
             em.close();
         }
     }
-      
-      
-      public List <DogDTO> GetAllDogsByUser(String username) throws NotFoundException{ // Evt. test på username
-          EntityManager em = getEntityManager();
+
+    public List<DogDTO> getAllDogsByUser(String username) throws NotFoundException {
+        EntityManager em = getEntityManager();
         try {
             TypedQuery<Dog> query = em.createQuery("SELECT d FROM Dog d WHERE d.user.userName = :username", Dog.class).setParameter("username", username);;
             List<Dog> res = query.getResultList();
@@ -66,25 +65,43 @@ public class DogFacade {
             }
             return dogs;
         } finally {
-            em.close(); 
+            em.close();
         }
-      }
-      
-       public DogDTO deleteDog(int id) throws NotFoundException {
+    }
+
+    public DogDTO editDog(DogDTO dogDTO) {
+        EntityManager em = getEntityManager();
+        Dog dog = em.find(Dog.class, dogDTO.getId());
+
+        dog.setName(dogDTO.getName());
+        dog.setDateOfBirth(dogDTO.getDateOfBirth());
+        dog.setInfo(dogDTO.getInfo());
+        dog.setBreed(dogDTO.getBreedName());
+
+        try {
+            em.getTransaction().begin();
+            em.merge(dog);
+            em.getTransaction().commit();
+            return new DogDTO(dog);
+        } finally {
+            em.close();
+        }
+    }
+
+    public DogDTO deleteDog(int id) throws NotFoundException {
         EntityManager em = emf.createEntityManager();
-            Dog dog = em.find(Dog.class, id);
-            if (dog == null) {
+        Dog dog = em.find(Dog.class, id);
+        if (dog == null) {
             throw new NotFoundException("Could not delete, provided id does not exist");
         }
         try {
             em.getTransaction().begin();
             em.remove(dog);
-            em.getTransaction().commit();   
+            em.getTransaction().commit();
         } finally {
             em.close();
         }
         return new DogDTO(dog);
     }
-      
 
 }
