@@ -3,11 +3,11 @@ package facades;
 import DTO.DogDTO;
 import entities.Dog;
 import entities.User;
+import errorhandling.NotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 
 public class DogFacade {
@@ -36,7 +36,7 @@ public class DogFacade {
         return emf.createEntityManager();
     }
 
-      public DogDTO addDog(DogDTO dogDTO, String username) {
+      public DogDTO addDog(DogDTO dogDTO, String username) { //Evt. test på, om attributterne er tomme
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
@@ -52,11 +52,14 @@ public class DogFacade {
     }
       
       
-      public List <DogDTO> GetAllDogsByUser(String username){
+      public List <DogDTO> GetAllDogsByUser(String username) throws NotFoundException{ // Evt. test på username
           EntityManager em = getEntityManager();
         try {
             TypedQuery<Dog> query = em.createQuery("SELECT d FROM Dog d WHERE d.user.userName = :username", Dog.class).setParameter("username", username);;
             List<Dog> res = query.getResultList();
+            if (res.isEmpty()) {
+                throw new NotFoundException("User has no dogs stored");
+            }
             List<DogDTO> dogs = new ArrayList();
             for (Dog dog : res) {
                 dogs.add(new DogDTO(dog));
@@ -67,9 +70,12 @@ public class DogFacade {
         }
       }
       
-       public DogDTO deleteDog(int id) {
+       public DogDTO deleteDog(int id) throws NotFoundException {
         EntityManager em = emf.createEntityManager();
             Dog dog = em.find(Dog.class, id);
+            if (dog == null) {
+            throw new NotFoundException("Could not delete, provided id does not exist");
+        }
         try {
             em.getTransaction().begin();
             em.remove(dog);

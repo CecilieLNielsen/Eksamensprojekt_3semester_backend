@@ -3,15 +3,11 @@ utils/EMF_Creator.class
 security/SharedSecret.class
 security/UserPrincipal.class
 security/errorhandling/AuthenticationExceptionMapper.class
-DTO/demo/AwesomeDTO.class
 entities/Role.class
-DTO/demo/PlanetDTO.class
 security/JWTAuthenticationFilter.class
 rest/ApplicationConfig.class
 security/RolesAllowedFilter.class
 errorhandling/ExceptionDTO.class
-DTO/demo/ChuckDTO.class
-DTO/demo/InsultDTO.class
 utils/SetupTestUsers.class
 security/errorhandling/AuthenticationException.class
 cors/CorsFilter.class
@@ -19,9 +15,7 @@ rest/DemoResource.class
 security/LoginEndpoint.class
 security/errorhandling/NotAuthorizedExceptionMapper.class
 security/JWTSecurityContext.class
-DTO/demo/DadDTO.class
 utils/HttpUtils.class
 facades/UserFacade.class
 errorhandling/NotFoundException.class
 entities/User.class
-DTO/demo/CombinedDTO.class

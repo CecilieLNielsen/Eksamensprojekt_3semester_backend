@@ -2,6 +2,7 @@ package rest;
 
 import DTO.DogDTO;
 import entities.Dog;
+import entities.Role;
 import entities.User;
 import utils.EMF_Creator;
 import io.restassured.RestAssured;
@@ -36,8 +37,8 @@ public class DogResourceTest {
 
     private static String securityToken;
 
-    private static void login() {
-        String json = String.format("{username: \"%s\", password: \"%s\"}", "user", "user123");
+    private static void login(String username, String password) {
+        String json = String.format("{username: \"%s\", password: \"%s\"}", username, password);
         securityToken = given()
                 .contentType("application/json")
                 .body(json)
@@ -77,27 +78,31 @@ public class DogResourceTest {
     @BeforeEach
     public void setUp() {
         EntityManager em = emf.createEntityManager();
+
+        User user = new User("user", "user123");
+        User user1 = new User("user1", "user1234");
+        Role userRole = new Role("user");
+        user.addRole(userRole);
+        user1.addRole(userRole);
+        Dog dog1 = new Dog(new DogDTO("Sofus", "01/01/2021", "A happy dog", "Golden Retriever"));
+        Dog dog2 = new Dog(new DogDTO("Balou", "01/01/2021", "A cute dog", "Golden Retriever"));
+        dog1.setUser(user);
+        dog2.setUser(user);
+
         try {
             em.getTransaction().begin();
             em.createQuery("DELETE from Dog").executeUpdate();
             em.createQuery("DELETE from User").executeUpdate();
+            em.createQuery("DELETE from Role").executeUpdate();
             em.createNativeQuery("ALTER TABLE `DOG` AUTO_INCREMENT = 1").executeUpdate();
             em.createNativeQuery("ALTER TABLE `USER` AUTO_INCREMENT = 1").executeUpdate();
-            User user = new User("user", "user123");
-            Dog dog1 = new Dog(new DogDTO("Sofus", "01/01/2021", "A happy dog", "Golden Retriever"));
-            Dog dog2 = new Dog(new DogDTO("Balou", "01/01/2021", "A cute dog", "Golden Retriever"));
-            dog1.setUser(user);
-            dog2.setUser(user);
             em.persist(user);
+            em.persist(user1);
+            em.persist(userRole);
             em.getTransaction().commit();
         } finally {
             em.close();
         }
-    }
-
-    @Test
-    public void serverIsRunning() {
-        given().when().get("/dog").then().statusCode(404);
     }
 
     @Test
@@ -108,26 +113,26 @@ public class DogResourceTest {
                 + "    \"info\" : \"A cute dog\",\n"
                 + "    \"breedName\" : \"Golden Retriever\"\n"
                 + "}";
-        login();
+        login("user", "user123");
         given()
                 .contentType("application/json")
                 .accept(ContentType.JSON)
-                //.header("x-access-token", securityToken)
+                .header("x-access-token", securityToken)
                 .body(json)
                 .when()
-                .post("/dog/user").then()
+                .post("/dog/add").then()
                 .statusCode(200);
     }
 
     @Test
     public void testGetAllDogsByUser() throws Exception {
-        login();
+        login("user", "user123");
         given()
                 .contentType("application/json")
                 .accept(ContentType.JSON)
-                //.header("x-access-token", securityToken)
+                .header("x-access-token", securityToken)
                 .when()
-                .get("/dog/user").then()
+                .get("/dog/all").then()
                 .statusCode(200);
     }
 
@@ -141,6 +146,19 @@ public class DogResourceTest {
                 .statusCode(200);
     }
 
+   /* @Test
+    public void testGetAllDogsExpectedNotFound() throws Exception {
+        login("user1", "user1234");
+        given()
+                .contentType("application/json")
+                .accept(ContentType.JSON)
+                .header("x-access-token", securityToken)
+                .when()
+                .get("/dogs/all").then()
+                .statusCode(400);
+    }
+*/
+
     @Test
     public void testGetBreedInformation() throws Exception {
         given()
@@ -150,15 +168,29 @@ public class DogResourceTest {
                 .get("/dog/breeds/husky").then()
                 .statusCode(200);
     }
-    
+
     @Test
     public void testDeleteDog() throws Exception {
+        login("user", "user123");
         given()
                 .contentType("application/json")
                 .accept(ContentType.JSON)
+                .header("x-access-token", securityToken)
                 .when()
                 .delete("/dog/1").then()
                 .statusCode(200);
     }
 
+  /*  @Test
+    public void testDeleteDogExpectedNotFound() throws Exception {
+        login("user1", "user1234");
+        given()
+                .contentType("application/json")
+                .accept(ContentType.JSON)
+                .header("x-access-token", securityToken)
+                .when()
+                .delete("/dogs/100").then()
+                .statusCode(400);
+    }
+*/
 }

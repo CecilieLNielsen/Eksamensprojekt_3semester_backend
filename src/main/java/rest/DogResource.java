@@ -7,9 +7,11 @@ import DTO.BreedInformationDTO;
 import DTO.DogDTO;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import errorhandling.NotFoundException;
 import utils.EMF_Creator;
 import facades.DogFacade;
 import java.io.IOException;
+import javax.annotation.security.RolesAllowed;
 import javax.persistence.EntityManagerFactory;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -18,8 +20,9 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 import utils.HttpUtils;
 
 @Path("dog")
@@ -30,21 +33,26 @@ public class DogResource {
     private static final DogFacade FACADE = DogFacade.getFacadeExample(EMF);
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
+    @Context
+    private SecurityContext securityContext;
+    
     @POST
-    @Path("/{username}")
+    @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    // @RolesAllowed("user")
-    public String addDog(String dog, @PathParam("username") String username) {
+    @RolesAllowed("user")
+    public String addDog(String dog) {
+        String username = securityContext.getUserPrincipal().getName();
         DogDTO dogDTO = GSON.fromJson(dog, DogDTO.class);
         return GSON.toJson(FACADE.addDog(dogDTO, username));
     }
 
     @GET
-    @Path("/{username}")
+    @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)
-    //@RolesAllowed("user")
-    public String getAllDogsByUser(@PathParam("username") String username) {
+    @RolesAllowed("user")
+    public String getAllDogsByUser() throws NotFoundException {
+        String username = securityContext.getUserPrincipal().getName();
         return GSON.toJson(FACADE.GetAllDogsByUser(username));
     }
     
@@ -79,7 +87,8 @@ public class DogResource {
     @Path("/{id}")
     @DELETE
     @Produces({MediaType.APPLICATION_JSON})
-    public String deleteDog(@PathParam("id") int id) {
+    @RolesAllowed("user")
+    public String deleteDog(@PathParam("id") int id) throws NotFoundException {
             return GSON.toJson(FACADE.deleteDog(id));
     }
 }

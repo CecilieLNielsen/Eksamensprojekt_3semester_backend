@@ -3,6 +3,7 @@ package facades;
 import DTO.DogDTO;
 import entities.Dog;
 import entities.User;
+import errorhandling.NotFoundException;
 import java.util.List;
 import utils.EMF_Creator;
 import javax.persistence.EntityManager;
@@ -10,6 +11,7 @@ import javax.persistence.EntityManagerFactory;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -75,7 +77,7 @@ public class DogFacadeTest {
     }
     
       @Test
-    public void testGetAllDogsByUser() {
+    public void testGetAllDogsByUser() throws NotFoundException {
         // Arrange
 
         // Act
@@ -84,8 +86,22 @@ public class DogFacadeTest {
         assertEquals(2, result.size());
     }
     
+        //Tester på en bruger, der ikke har oprettet nogle hunde
+       @Test
+        public void testGetAllDogsByUserExpectedNotFound(){
+        // Arrange
+        String username = "Jønke";
+        
+        // Assert 
+        assertThrows(NotFoundException.class, () -> {
+       
+        //Act     
+        facade.GetAllDogsByUser(username);
+        });
+    }
+    
         @Test
-    public void testDeleteDog() {
+    public void testDeleteDog() throws NotFoundException {
         // Arrange
         int id = 1;
         // Act
@@ -93,5 +109,21 @@ public class DogFacadeTest {
         // Assert
         assertEquals(id, result.getId());
     }
+           
+        //Tester på et ID der ikke findes
+         @Test
+    public void testDeleteDogExpectedNotFound() {
+       // Arrange
+        int id = 100;
+        
+        // Assert 
+        assertThrows(NotFoundException.class, () -> {
+       
+        //Act     
+        facade.deleteDog(id);
+        });
+    }
+     
+     
 
 }
